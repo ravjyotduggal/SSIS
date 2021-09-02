@@ -1,0 +1,42 @@
+************ Write the below code in the beginning of the file *******************
+
+#region Namespaces
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Runtime;
+using System.Windows.Forms;
+#endregion
+
+************ Code for checking date of the file placed in the folder ****************
+
+public void Main()
+        {
+            // TODO: Add your code here
+
+            System.IO.FileInfo theFile =
+              new System.IO.FileInfo(Dts.Variables["User::Item_File"].Value.ToString());
+
+            if (theFile.LastWriteTime.Date != DateTime.Now.Date)
+            {
+                Dts.Variables["User::Item_File_Check"].Value = "Y";
+            }
+            else
+            { 
+            Dts.Variables["User::Item_File_Check"].Value = "N";
+         }
+
+            Dts.TaskResult = (int)ScriptResults.Success;
+        }
+
+        #region ScriptResults declaration
+        /// <summary>
+        /// This enum provides a convenient shorthand within the scope of this class for setting the
+        /// result of the script.
+        /// 
+        /// This code was generated automatically.
+        /// </summary>
+        enum ScriptResults
+        {
+            Success = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success,
+            Failure = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure
+        };
