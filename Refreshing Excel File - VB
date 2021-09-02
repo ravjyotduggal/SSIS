@@ -1,0 +1,35 @@
+***************** Begenning of the file *****************
+
+#Region "Imports"
+Imports System
+Imports System.Data
+Imports System.Math
+Imports Microsoft.SqlServer.Dts.Runtime
+Imports Microsoft.Office.Interop.Excel
+#End Region
+
+***************** Code for refreshing the file *****************
+
+Public Sub Main()
+        '
+        ' Add your code here
+        '
+        Dts.TaskResult = Dts.TaskResult
+
+        Dim excel As New Microsoft.Office.Interop.Excel.Application
+        Dim wb As Microsoft.Office.Interop.Excel.Workbook
+
+        wb = excel.Workbooks.Open("C\users\desktop\PowerApp_Data.xlsx")
+        wb.RefreshAll()
+        wb.Save()
+        wb.Close()
+        'Refreshing Training Attendees Data
+        wb = excel.Workbooks.Open("C\users\desktop\PowerApp_Data1.xlsx")
+        wb.RefreshAll()
+        wb.Save()
+        wb.Close()
+        excel.Quit()
+        Runtime.InteropServices.Marshal.ReleaseComObject(excel)
+
+        Dts.TaskResult = ScriptResults.Success
+    End Sub
